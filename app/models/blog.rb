@@ -24,4 +24,8 @@ class Blog < ApplicationRecord
   def content_escaping
     self.content = html_escape(content)
   end
+
+  def dangerous_unescaped_content
+    CGI.unescapeHTML(content || '')
+  end
 end
