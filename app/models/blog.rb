@@ -15,7 +15,13 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
+  before_save :content_escaping
+
   def owned_by?(target_user)
     user == target_user
+  end
+
+  def content_escaping
+    self.content = html_escape(content)
   end
 end
