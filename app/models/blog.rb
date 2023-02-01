@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Blog < ApplicationRecord
+  require 'erb'
+  include ERB::Util
+
   belongs_to :user
   has_many :likings, dependent: :destroy
   has_many :liking_users, class_name: 'User', source: :user, through: :likings
