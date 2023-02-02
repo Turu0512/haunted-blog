@@ -8,10 +8,11 @@ class BlogsController < ApplicationController
   end
 
   def show
-    if @blog.secret && current_user.id != @blog.user_id
-      redirect_to blogs_path
-    else
-      set_blog
+    @blog = Blog.find(params[:id])
+    if @blog.secret? && current_user
+      current_user.blogs.find(params[:id])
+    elsif @blog.secret?
+      raise ActiveRecord::RecordNotFound
     end
   end
 
