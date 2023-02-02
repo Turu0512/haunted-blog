@@ -19,6 +19,7 @@ class Blog < ApplicationRecord
   scope :default_order, -> { order(id: :desc) }
 
   before_save :content_escaping
+  before_save :premium_user_checking
 
   def owned_by?(target_user)
     user == target_user
@@ -30,5 +31,9 @@ class Blog < ApplicationRecord
 
   def dangerous_unescaped_content
     CGI.unescapeHTML(content || '')
+  end
+
+  def premium_user_checking
+    self.random_eyecatch = false if random_eyecatch && !user.premium?
   end
 end
