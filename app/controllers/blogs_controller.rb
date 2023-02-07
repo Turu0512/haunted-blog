@@ -10,6 +10,7 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.find(params[:id])
+    @blog.content = ERB::Util.html_escape(@blog.content)
     if @blog.secret? && current_user
       current_user.blogs.find(params[:id])
     elsif @blog.secret?

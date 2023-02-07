@@ -16,19 +16,10 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
-  before_save :content_escaping
   before_save :premium_user_checking
 
   def owned_by?(target_user)
     user == target_user
-  end
-
-  def content_escaping
-    self.content = ERB::Util.html_escape(content)
-  end
-
-  def dangerous_unescaped_content
-    CGI.unescapeHTML(content || '')
   end
 
   def premium_user_checking
