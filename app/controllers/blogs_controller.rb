@@ -12,7 +12,7 @@ class BlogsController < ApplicationController
     if @blog.secret? && current_user
       current_user.blogs.find(params[:id])
     elsif @blog.secret?
-      raise ActiveRecord::RecordNotFound
+      Blog.where(secret: false).find(params[:id])
     end
   end
 
