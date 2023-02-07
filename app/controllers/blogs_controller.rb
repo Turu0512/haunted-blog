@@ -44,14 +44,17 @@ class BlogsController < ApplicationController
 
   def destroy
     @blog.destroy!
-
     redirect_to blogs_url, notice: 'Blog was successfully destroyed.', status: :see_other
   end
 
   private
 
   def blog_params
-    params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
+    if current_user.premium?
+      params.require(:blog).permit(:title, :content, :secret, :random_eyecatch)
+    else
+      params.require(:blog).permit(:title, :content, :secret)
+    end
   end
 
   def user_blog

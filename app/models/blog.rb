@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Blog < ApplicationRecord
-
   belongs_to :user
   has_many :likings, dependent: :destroy
   has_many :liking_users, class_name: 'User', source: :user, through: :likings
@@ -16,13 +15,7 @@ class Blog < ApplicationRecord
 
   scope :default_order, -> { order(id: :desc) }
 
-  before_save :premium_user_checking
-
   def owned_by?(target_user)
     user == target_user
-  end
-
-  def premium_user_checking
-    self.random_eyecatch = false if random_eyecatch && !user.premium?
   end
 end
