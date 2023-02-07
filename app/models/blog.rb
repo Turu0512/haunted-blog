@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Blog < ApplicationRecord
-  require 'erb'
-  include ERB::Util
 
   belongs_to :user
   has_many :likings, dependent: :destroy
@@ -26,7 +24,7 @@ class Blog < ApplicationRecord
   end
 
   def content_escaping
-    self.content = html_escape(content)
+    self.content = ERB::Util.html_escape(content)
   end
 
   def dangerous_unescaped_content
