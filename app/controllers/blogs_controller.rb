@@ -9,12 +9,7 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = if current_user&.premium?
-              Blog.find(params[:id])
-            else
-              Blog.where(secret: false).find(params[:id])
-            end
-    @blog.content = ERB::Util.html_escape(@blog.content)
+    @blog = Blog.where(secret: false).or(Blog.where(user_id: current_user&.id, secret: true)).find(params[:id])
   end
 
   def new
