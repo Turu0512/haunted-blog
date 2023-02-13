@@ -38,6 +38,7 @@ class BlogsController < ApplicationController
 
   def destroy
     @blog.destroy!
+
     redirect_to blogs_url, notice: 'Blog was successfully destroyed.', status: :see_other
   end
 
